@@ -11,6 +11,7 @@
 |---|---|---|---|
 | **루트 사용자만** 가능한 작업 | **계정 해지**, Support 플랜 변경, 루트 이메일 변경 | IAM 사용자 생성, EC2 종료 | **계정 자체 = 루트 / 리소스 = IAM** |
 | **부서별·프로젝트별** 비용 | **비용 할당 태그** | Pricing Calculator ×2 | **이미 쓴 돈 나누기 = 태그** |
+| **여러 계정** + 결제 통합·중앙 거버넌스 | **Organizations** (모든 기능 모드) | OS 자동 패치, Cost and Usage Report | **계정 여러 개 + 결제/중앙 = Organizations** |
 
 ---
 
@@ -37,7 +38,8 @@
 |---|---|
 | **게스트 OS 패치**, SG 설정, 데이터 암호화 ⚠️ | **고객 책임** |
 | 물리 보안, 하이퍼바이저, 데이터센터 | **AWS 책임** |
-| 여러 계정 **통합 결제** + 권한 상한 ⚠️ | **Organizations** (+ **SCP**) |
+| 여러 계정 **통합 결제** + 권한 상한 🔁 | **Organizations** (+ **SCP**) |
+| 보안 그룹 **무제한 접근(0.0.0.0/0) 점검** ⚠️ | **Trusted Advisor** (❌ IAM) |
 | 규정 준수 **보고서**(SOC, PCI, ISO) 다운로드 ⚠️ | **AWS Artifact** |
 | **누가** API 호출했나 (감사) ⚠️ | **CloudTrail** |
 | 리소스 **설정 변경** 이력·규칙 준수 | **AWS Config** |
@@ -48,7 +50,8 @@
 | S3 개인정보(PII) 탐지 | **Macie** |
 | 암호화 키 관리 | **KMS** (전용 HSM = CloudHSM) |
 | DB 비밀번호 자동 교체 | **Secrets Manager** |
-| SSL/TLS 인증서 무료 발급 | **ACM** |
+| **전송 중 암호화**, SSL/TLS 인증서 ⚠️ | **ACM** (❌ Shield) |
+| **저장 시 암호화** | **KMS** |
 | 보안 결과 한곳에 모아 보기 | **Security Hub** |
 
 > 🧠 감사 3종: **Trail = 누가 / Config = 어떻게 바뀌었나 / CloudWatch = 얼마나**
@@ -114,6 +117,15 @@
 | EC2 패치·명령 실행 일괄 | **Systems Manager** |
 | AWS 서비스 장애 공지 (내 계정 영향) | **Health Dashboard** |
 
+### 3-5-1. 메시징·통합
+
+| 키워드 | 정답 |
+|---|---|
+| 팀 전체에 **경고/알림 발송** (이메일·SMS) ⚠️ | **SNS** (❌ EventBridge) |
+| 메시지 **대기열**, 시스템 분리 | **SQS** |
+| 이벤트를 **규칙으로 라우팅** | **EventBridge** |
+| 클라우드 **콜센터** | **Amazon Connect** |
+
 ### 3-6. 스토리지
 
 | 키워드 | 정답 |
@@ -176,3 +188,7 @@
 | Artifact vs **CodeArtifact** | 규정 준수 보고서 vs 패키지 저장소 |
 | SDK vs **CLI** | 코드 안 vs 터미널 |
 | 보안 그룹 vs **NACL** | 인스턴스·상태 저장 vs 서브넷·상태 비저장 |
+| Trusted Advisor vs **IAM** | 설정 점검·권장 vs 권한 관리 |
+| ACM vs **Shield** | 전송 중 암호화(TLS) vs DDoS 방어 |
+| SNS vs **EventBridge** | 알림 발송 vs 이벤트 라우팅 |
+| Organizations vs **CUR** | 결제 통합·거버넌스 vs 비용 보고서 |
